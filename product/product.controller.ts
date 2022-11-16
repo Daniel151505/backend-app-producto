@@ -13,6 +13,8 @@ import {
 } from '@nestjs/common';
 import { CreateProductDto } from './dto/product.dto';
 import { ProductService } from './product.service';
+import { PaginationProductDto } from './dto/pagination-product.dto';
+import { FilterProductDto } from './dto/filter-product.dto';
 
 @Controller('product')
 export class ProductController {
@@ -20,6 +22,7 @@ export class ProductController {
 
   @Post('/create')
   async createPost(@Res() res, @Body() createProductDTO: CreateProductDto) {
+    console.log(res);
     const product = await this.productService.createProduct(createProductDTO);
     return res.status(HttpStatus.OK).json({
       message: 'Product Successfully Created',
@@ -28,8 +31,25 @@ export class ProductController {
   }
 
   @Get('/')
-  async getProducts(@Res() res) {
-    const products = await this.productService.getProducts();
+  async getProducts(@Res() res, @Query() pagination: PaginationProductDto) {
+    console.log(res);
+    console.log(pagination);
+    const products = await this.productService.getProducts(pagination);
+    return res.status(HttpStatus.OK).json([...products]);
+  }
+
+  @Get('/search')
+  async getProductsFilter(
+    @Res() res,
+    @Query() pagination: PaginationProductDto,
+    @Query('filter') filter: FilterProductDto,
+    @Query('type') type: FilterProductDto,
+  ) {
+    const products = await this.productService.searchProducts(
+      pagination,
+      filter,
+      type,
+    );
     return res.status(HttpStatus.OK).json([...products]);
   }
 
