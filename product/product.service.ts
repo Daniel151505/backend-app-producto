@@ -28,25 +28,25 @@ export class ProductService {
 
     if (type === 'name') {
       this.searchFilter = products.filter((value) => {
-        return value.name.includes(name);
+        return value.name.toLowerCase().includes(name);
       });
     }
 
     if (type === 'brandName') {
       this.searchFilter = products.filter((value) => {
-        return value.brand.name.includes(name);
+        return value.brand.name.toLowerCase().includes(name);
       });
     }
 
     if (type === 'url') {
       this.searchFilter = products.filter((value) => {
-        return value.slug.includes(name);
+        return value.slug.toLowerCase().includes(name);
       });
     }
 
     if (type === 'categoryName') {
       this.searchFilter = products.filter((value) => {
-        return value.category.name.includes(name);
+        return value.category.name.toLowerCase().includes(name);
       });
     }
 
